@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SpaceX Launches - Aplicación Limpia</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #3c484e;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .Header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #15302C;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .Header a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        .Main {
+            padding: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .Launches {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .Launch-detail {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+        
+        .Launch-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease;
+        }
+        
+        .Launch-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .Launch-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .Launch-card h2 {
+            margin: 0 0 10px 0;
+            color: #15302C;
+            font-size: 18px;
+            font-weight: 400;
+            text-align: center;
+        }
+        
+        .Launch-card h3 {
+            font-size: 18px;
+            font-weight: 400;
+            text-align: left;
+            margin: 20px 0 10px 0;
+            color: #15302C;
+        }
+        
+        .Launch-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+        }
+        
+        .error {
+            color: red;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        @keyframes fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .Launch-card {
+            animation: fade 2s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <main class="Main">
+        <header class="Header-main">
+            <div class="Header-logo">
+                <h1>
+                    <a href="/">
+                        <span>🚀 SpaceX Launches</span>
+                    </a>
+                </h1>
+            </div>
+            <div class="Header-nav">
+                <a href="#/about">About</a>
+            </div>
+        </header>
+        <section id="content">
+            <div class="loading">Cargando lanzamientos...</div>
+        </section>
+    </main>
+
+    <script>
+        const API = 'https://api.spacexdata.com/v5/launches';
+        
+        async function getData(id) {
+            try {
+                const apiURL = id ? `${API}/${id}` : API;
+                const response = await fetch(apiURL);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.log('Fetch Error', error);
+                return null;
+            }
+        }
+
+        function renderLaunches(launches) {
+            const content = document.getElementById('content');
+            
+            if (!launches || launches.length === 0) {
+                content.innerHTML = '<div class="error">No se pudieron cargar los lanzamientos</div>';
+                return;
+            }
+
+            const launchesHTML = launches.slice(0, 20).map(launch => `
+                <article class="Launch-card">
+                    <a href="#/${launch.id}">
+                        ${launch.links?.patch?.small ? `<img src="${launch.links.patch.small}" alt="${launch.name}">` : ''}
+                        <h2>${launch.name}</h2>
+                        <p><strong>Fecha:</strong> ${new Date(launch.date_utc).toLocaleDateString()}</p>
+                        <p><strong>Estado:</strong> ${launch.success ? '✅ Exitoso' : launch.success === false ? '❌ Fallido' : '⏳ Pendiente'}</p>
+                        <p><strong>Vuelo #${launch.flight_number}</strong></p>
+                    </a>
+                </article>
+            `).join('');
+
+            content.innerHTML = `
+                <div class="Launches">
+                    ${launchesHTML}
+                </div>
+            `;
+        }
+
+        function renderLaunchDetail(launch) {
+            const content = document.getElementById('content');
+            
+            if (!launch) {
+                content.innerHTML = '<div class="error">Lanzamiento no encontrado</div>';
+                return;
+            }
+
+            const detailHTML = `
+                <div class="Launch-detail">
+                    <article class="Launch-card">
+                        ${launch.links?.patch?.large ? `<img src="${launch.links.patch.large}" alt="${launch.name}" style="width: 100%; max-width: 300px; margin-bottom: 20px;">` : ''}
+                        <h2>${launch.name}</h2>
+                        <p><strong>Vuelo #${launch.flight_number}</strong></p>
+                    </article>
+
+                    <article class="Launch-card">
+                        <h3>Información de la Misión:</h3>
+                        <p><strong>Fecha de Lanzamiento:</strong> ${launch.date_utc ? new Date(launch.date_utc).toLocaleString() : 'N/A'}</p>
+                        <p><strong>Estado:</strong> ${launch.success ? '✅ Exitoso' : launch.success === false ? '❌ Fallido' : '⏳ Pendiente'}</p>
+                        <p><strong>Detalles:</strong> ${launch.details || 'Sin detalles disponibles'}</p>
+                        ${launch.failures?.length > 0 ? `<p><strong>Fallas:</strong> ${launch.failures.map(f => f.reason).join(', ')}</p>` : ''}
+                        ${launch.links?.webcast ? `<p><strong>Webcast:</strong> <a href="${launch.links.webcast}" target="_blank">Ver en YouTube</a></p>` : ''}
+                        ${launch.links?.article ? `<p><strong>Artículo:</strong> <a href="${launch.links.article}" target="_blank">Leer más</a></p>` : ''}
+                    </article>
+                </div>
+            `;
+
+            content.innerHTML = detailHTML;
+        }
+
+        async function router() {
+            const hash = location.hash.slice(1).toLowerCase() || '/';
+            
+            if (hash === '/') {
+                const launches = await getData();
+                renderLaunches(launches);
+            } else if (hash.startsWith('/')) {
+                const launchId = hash.slice(1);
+                const launch = await getData(launchId);
+                renderLaunchDetail(launch);
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('load', router);
+        window.addEventListener('hashchange', router);
+    </script>
+</body>
+</html>
+
+
+

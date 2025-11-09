@@ -5,7 +5,7 @@ Repositorio que contiene todos los trabajos prácticos de la materia Programaci�
 ## 📁 Proyectos incluidos
 
 ### 1. API REST Full CRUD Node.js
-- **Carpeta**: `api-rest-full-crud-nodejs/` (raíz del repositorio)
+- **Carpeta**: `api-rest-full-crud-nodejs/`
 - **Descripción**: API REST completa con operaciones CRUD para gestión de usuarios
 - **Tecnologías**: Node.js, Express, PostgreSQL, Docker
 - **Características**:
