@@ -27,3 +27,7 @@ logs/
 # Docker volumes (opcional, comentado para mantener datos)
 # postgres_data/
 
+# Build outputs
+dist/
+build/
+

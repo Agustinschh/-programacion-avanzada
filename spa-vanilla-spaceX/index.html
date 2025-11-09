@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA Vanilla JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navegación -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>Mi SPA</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#/" class="nav-link" data-route="home">Inicio</a></li>
+                <li><a href="#/about" class="nav-link" data-route="about">Acerca de</a></li>
+                <li><a href="#/contact" class="nav-link" data-route="contact">Contacto</a></li>
+                <li><a href="#/products" class="nav-link" data-route="products">Productos</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <div id="content"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Mi SPA. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
