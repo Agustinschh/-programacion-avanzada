@@ -1,7 +1,6 @@
-// Pool conexiones PostgreSQL
+// parte de: api-rest-full-crud-nodejs
 const { Pool } = require('pg');
 
-// Configuración pool
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 5432,
@@ -10,12 +9,10 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || 'postgres',
 });
 
-// Evento conexión
 pool.on('connect', () => {
   console.log('Conectado a la base de datos PostgreSQL');
 });
 
-// Evento error
 pool.on('error', (err) => {
   console.error('Error inesperado en la base de datos:', err);
   process.exit(-1);

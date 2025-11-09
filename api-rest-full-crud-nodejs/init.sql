@@ -1,4 +1,4 @@
--- Tabla usuarios
+-- parte de: api-rest-full-crud-nodejs
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -6,6 +6,5 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Índice email
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 

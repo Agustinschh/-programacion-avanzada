@@ -1,4 +1,4 @@
-# Configuración Docker PostgreSQL
+# parte de: api-rest-full-crud-nodejs
 version: '3.8'
 
 services:

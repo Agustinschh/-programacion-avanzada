@@ -1,17 +1,13 @@
-// Servidor Express API REST
+// parte de: api-rest-full-crud-nodejs
 const express = require('express');
 const pool = require('./db');
 
-// Aplicación Express
 const app = express();
 
-// Puerto servidor
 const PORT = process.env.PORT || 3000;
 
-// Middleware JSON
 app.use(express.json());
 
-// Listar usuarios
 app.get('/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users ORDER BY id');
@@ -22,7 +18,6 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// Obtener usuario
 app.get('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -39,7 +34,6 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
-// Crear usuario
 app.post('/users', async (req, res) => {
     try {
         const { name, email } = req.body || {};
@@ -55,7 +49,7 @@ app.post('/users', async (req, res) => {
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        if (error.code === '23505') { // Email duplicado
+        if (error.code === '23505') {
             return res.status(400).json({ error: 'El email ya está registrado' });
         }
         console.error('Error al crear usuario:', error);
@@ -63,7 +57,6 @@ app.post('/users', async (req, res) => {
     }
 });
 
-// Actualizar usuario
 app.put('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -73,7 +66,6 @@ app.put('/users/:id', async (req, res) => {
             return res.status(400).json({ error: 'Se requiere al menos un campo para actualizar (name o email)' });
         }
 
-        // Construir consulta dinámica
         const updates = [];
         const values = [];
         let paramIndex = 1;
@@ -99,7 +91,7 @@ app.put('/users/:id', async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (error) {
-        if (error.code === '23505') { // Email duplicado
+        if (error.code === '23505') {
             return res.status(400).json({ error: 'El email ya está registrado' });
         }
         console.error('Error al actualizar usuario:', error);
@@ -107,7 +99,6 @@ app.put('/users/:id', async (req, res) => {
     }
 });
 
-// Eliminar usuario
 app.delete('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -127,7 +118,6 @@ app.delete('/users/:id', async (req, res) => {
 
 
 
-// Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
