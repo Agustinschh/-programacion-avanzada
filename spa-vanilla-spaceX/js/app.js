@@ -1,4 +1,3 @@
-// Aplicación principal SPA
 class App {
     constructor() {
         this.router = new Router();
@@ -11,23 +10,12 @@ class App {
     }
 
     setupRoutes() {
-        // Ruta de inicio
         this.router.addRoute('/', () => this.createHomeView());
-        
-        // Ruta acerca de
         this.router.addRoute('/about', () => this.createAboutView());
-        
-        // Ruta contacto
         this.router.addRoute('/contact', () => this.createContactView());
-        
-        // Ruta productos
         this.router.addRoute('/products', () => this.createProductsView());
-        
-        // Ruta 404
         this.router.addRoute('/404', () => this.create404View());
     }
-
-    // Vista de inicio
     createHomeView() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -46,7 +34,6 @@ class App {
         return div;
     }
 
-    // Vista acerca de
     createAboutView() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -73,7 +60,6 @@ class App {
         return div;
     }
 
-    // Vista de contacto
     createContactView() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -108,7 +94,6 @@ class App {
             </div>
         `;
 
-        // Agregar funcionalidad al formulario
         const form = div.querySelector('#contactForm');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -118,7 +103,6 @@ class App {
         return div;
     }
 
-    // Vista de productos
     createProductsView() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -133,13 +117,11 @@ class App {
             </div>
         `;
 
-        // Cargar productos dinámicamente
         this.loadProducts(div);
 
         return div;
     }
 
-    // Vista 404
     create404View() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -157,15 +139,12 @@ class App {
         return div;
     }
 
-    // Manejar envío del formulario de contacto
     handleContactForm(form) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         
-        // Simular envío
         console.log('Datos del formulario:', data);
         
-        // Mostrar mensaje de éxito
         const successMsg = document.createElement('div');
         successMsg.style.cssText = `
             background: #d4edda;
@@ -180,17 +159,14 @@ class App {
         form.parentNode.insertBefore(successMsg, form.nextSibling);
         form.reset();
         
-        // Remover mensaje después de 5 segundos
         setTimeout(() => {
             successMsg.remove();
         }, 5000);
     }
 
-    // Cargar productos (simulado)
     loadProducts(container) {
         const productGrid = container.querySelector('#productGrid');
         
-        // Simular carga asíncrona
         setTimeout(() => {
             const products = [
                 {
@@ -229,7 +205,6 @@ class App {
     }
 }
 
-// Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     new App();
 });

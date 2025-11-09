@@ -1,4 +1,3 @@
-// Sistema de routing para SPA
 class Router {
     constructor() {
         this.routes = new Map();
@@ -7,12 +6,10 @@ class Router {
     }
 
     init() {
-        // Escuchar cambios en la URL
         window.addEventListener('popstate', () => {
             this.handleRoute();
         });
 
-        // Escuchar clicks en enlaces de navegación
         document.addEventListener('click', (e) => {
             if (e.target.matches('[data-route]')) {
                 e.preventDefault();
@@ -21,23 +18,19 @@ class Router {
             }
         });
 
-        // Manejar la ruta inicial
         this.handleRoute();
     }
 
-    // Registrar una ruta
     addRoute(path, component) {
         this.routes.set(path, component);
     }
 
-    // Navegar a una ruta
     navigate(path) {
         if (path === 'home') path = '/';
         window.history.pushState({}, '', `#${path}`);
         this.handleRoute();
     }
 
-    // Manejar el cambio de ruta
     handleRoute() {
         const hash = window.location.hash.slice(1) || '/';
         const route = this.routes.get(hash);
@@ -47,12 +40,10 @@ class Router {
             this.render(route);
             this.updateActiveLink();
         } else {
-            // Ruta no encontrada - mostrar 404
             this.render(this.routes.get('/404') || this.default404);
         }
     }
 
-    // Renderizar el componente
     render(component) {
         const content = document.getElementById('content');
         if (content) {
@@ -61,7 +52,6 @@ class Router {
         }
     }
 
-    // Actualizar el enlace activo en la navegación
     updateActiveLink() {
         const links = document.querySelectorAll('.nav-link');
         links.forEach(link => {
@@ -74,7 +64,6 @@ class Router {
         });
     }
 
-    // Componente 404 por defecto
     default404() {
         const div = document.createElement('div');
         div.className = 'view';
@@ -87,6 +76,5 @@ class Router {
     }
 }
 
-// Exportar para uso global
 window.Router = Router;
 
