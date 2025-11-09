@@ -1,16 +1,7 @@
-/**
- * @fileoverview Configuración del pool de conexiones a PostgreSQL
- * @module db
- */
-
+// Pool conexiones PostgreSQL
 const { Pool } = require('pg');
 
-/**
- * Pool de conexiones a la base de datos PostgreSQL
- * @type {Pool}
- * @description Configuración del pool de conexiones usando variables de entorno
- * o valores por defecto para desarrollo local
- */
+// Configuración pool
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 5432,
@@ -19,19 +10,12 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || 'postgres',
 });
 
-/**
- * Evento que se dispara cuando se establece una conexión exitosa
- * @event Pool#connect
- */
+// Evento conexión
 pool.on('connect', () => {
   console.log('Conectado a la base de datos PostgreSQL');
 });
 
-/**
- * Evento que se dispara cuando ocurre un error en la base de datos
- * @event Pool#error
- * @param {Error} err - Objeto de error de PostgreSQL
- */
+// Evento error
 pool.on('error', (err) => {
   console.error('Error inesperado en la base de datos:', err);
   process.exit(-1);

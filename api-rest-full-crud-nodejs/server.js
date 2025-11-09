@@ -1,38 +1,17 @@
-/**
- * @fileoverview Servidor Express con API REST para gestión de usuarios
- * @module server
- */
-
+// Servidor Express API REST
 const express = require('express');
 const pool = require('./db');
 
-/**
- * Aplicación Express
- * @type {express.Application}
- */
+// Aplicación Express
 const app = express();
 
-/**
- * Puerto del servidor
- * @type {number}
- * @default 3000
- */
+// Puerto servidor
 const PORT = process.env.PORT || 3000;
 
-/**
- * Middleware para parsear el cuerpo de las peticiones en formato JSON
- */
+// Middleware JSON
 app.use(express.json());
 
-/**
- * Obtiene todos los usuarios
- * @route GET /users
- * @returns {Object[]} Array de usuarios
- * @returns {number} returns[].id - ID del usuario
- * @returns {string} returns[].name - Nombre del usuario
- * @returns {string} returns[].email - Email del usuario
- * @returns {string} returns[].created_at - Fecha de creación
- */
+// Listar usuarios
 app.get('/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users ORDER BY id');
@@ -43,16 +22,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-/**
- * Obtiene un usuario por su ID
- * @route GET /users/:id
- * @param {number} id - ID del usuario
- * @returns {Object} Usuario encontrado
- * @returns {number} returns.id - ID del usuario
- * @returns {string} returns.name - Nombre del usuario
- * @returns {string} returns.email - Email del usuario
- * @returns {string} returns.created_at - Fecha de creación
- */
+// Obtener usuario
 app.get('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -69,18 +39,7 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
-/**
- * Crea un nuevo usuario
- * @route POST /users
- * @param {Object} req.body - Cuerpo de la petición
- * @param {string} req.body.name - Nombre del usuario (requerido)
- * @param {string} req.body.email - Email del usuario (requerido, único)
- * @returns {Object} Usuario creado
- * @returns {number} returns.id - ID del usuario generado
- * @returns {string} returns.name - Nombre del usuario
- * @returns {string} returns.email - Email del usuario
- * @returns {string} returns.created_at - Fecha de creación
- */
+// Crear usuario
 app.post('/users', async (req, res) => {
     try {
         const { name, email } = req.body || {};
@@ -96,7 +55,7 @@ app.post('/users', async (req, res) => {
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        if (error.code === '23505') { // Violación de constraint único (email duplicado)
+        if (error.code === '23505') { // Email duplicado
             return res.status(400).json({ error: 'El email ya está registrado' });
         }
         console.error('Error al crear usuario:', error);
@@ -104,19 +63,7 @@ app.post('/users', async (req, res) => {
     }
 });
 
-/**
- * Actualiza un usuario existente
- * @route PUT /users/:id
- * @param {number} id - ID del usuario a actualizar
- * @param {Object} req.body - Cuerpo de la petición
- * @param {string} [req.body.name] - Nuevo nombre del usuario (opcional)
- * @param {string} [req.body.email] - Nuevo email del usuario (opcional, único)
- * @returns {Object} Usuario actualizado
- * @returns {number} returns.id - ID del usuario
- * @returns {string} returns.name - Nombre actualizado
- * @returns {string} returns.email - Email actualizado
- * @returns {string} returns.created_at - Fecha de creación
- */
+// Actualizar usuario
 app.put('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -126,7 +73,7 @@ app.put('/users/:id', async (req, res) => {
             return res.status(400).json({ error: 'Se requiere al menos un campo para actualizar (name o email)' });
         }
 
-        // Construir la consulta dinámicamente según los campos proporcionados
+        // Construir consulta dinámica
         const updates = [];
         const values = [];
         let paramIndex = 1;
@@ -152,7 +99,7 @@ app.put('/users/:id', async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (error) {
-        if (error.code === '23505') { // Violación de constraint único (email duplicado)
+        if (error.code === '23505') { // Email duplicado
             return res.status(400).json({ error: 'El email ya está registrado' });
         }
         console.error('Error al actualizar usuario:', error);
@@ -160,12 +107,7 @@ app.put('/users/:id', async (req, res) => {
     }
 });
 
-/**
- * Elimina un usuario por su ID
- * @route DELETE /users/:id
- * @param {number} id - ID del usuario a eliminar
- * @returns {void} 204 No Content si se elimina correctamente
- */
+// Eliminar usuario
 app.delete('/users/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -185,10 +127,7 @@ app.delete('/users/:id', async (req, res) => {
 
 
 
-/**
- * Inicia el servidor Express
- * @listens {number} PORT - Puerto en el que escucha el servidor
- */
+// Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

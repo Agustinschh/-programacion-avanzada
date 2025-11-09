@@ -1,4 +1,4 @@
--- Crear tabla de usuarios
+-- Tabla usuarios
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Crear índice en email para búsquedas más rápidas
+-- Índice email
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 

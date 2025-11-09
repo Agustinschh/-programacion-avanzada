@@ -1,7 +1,7 @@
 {
   "name": "api-rest-full-nodejs",
   "version": "1.0.0",
-  "description": "api rest full de users",
+  "description": "API REST CRUD usuarios",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
