@@ -1,4 +1,3 @@
--- parte de: api-rest-full-crud-nodejs
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,

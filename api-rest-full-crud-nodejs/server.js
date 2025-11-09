@@ -1,4 +1,3 @@
-// parte de: api-rest-full-crud-nodejs
 const express = require('express');
 const pool = require('./db');
 

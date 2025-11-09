@@ -1,4 +1,3 @@
-// parte de: api-rest-full-crud-nodejs
 const { Pool } = require('pg');
 
 const pool = new Pool({
