@@ -37,6 +37,17 @@ Repositorio que contiene todos los trabajos prácticos de la materia Programaci�
   - Diseño responsive
   - Sin dependencias externas
 
+### 5. Sistema de Transacciones Bancarias con Kafka
+- **Carpeta**: `transacciones/`
+- **Descripción**: Sistema completo de simulación de transacciones bancarias con Kafka y WebSocket
+- **Tecnologías**: Node.js, Kafka, WebSocket, Next.js, React, TypeScript
+- **Características**:
+  - API Service para recibir transacciones
+  - Orchestrator Service con patrón Saga
+  - Gateway WebSocket para actualizaciones en tiempo real
+  - Frontend Next.js con timeline en vivo
+  - Kafka para eventos (txn.commands, txn.events, txn.dlq)
+
 ## 🚀 Cómo usar
 
 Cada proyecto tiene su propia documentación en su carpeta correspondiente. Consulta el README.md de cada proyecto para más detalles.

@@ -1,0 +1,19 @@
+{
+  "name": "gateway-service",
+  "version": "1.0.0",
+  "description": "Gateway WebSocket para transacciones bancarias",
+  "main": "gateway.js",
+  "scripts": {
+    "start": "node gateway.js",
+    "dev": "nodemon gateway.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1",
+    "kafkajs": "^2.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
+
