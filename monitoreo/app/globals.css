@@ -1,0 +1,62 @@
+/**
+ * Estilos Globales de la Aplicación
+ * 
+ * Este archivo contiene los estilos CSS globales aplicados a toda la aplicación.
+ * Incluye la importación de Tailwind CSS v4 y estilos personalizados adicionales.
+ * 
+ * Contenido:
+ * - Importación de Tailwind CSS v4 (utilidades, componentes, base)
+ * - Variables CSS para temas (colores de fondo y texto)
+ * - Estilos base del body
+ * - Utilidades personalizadas (text-balance)
+ * - Estilos personalizados para scrollbar (webkit)
+ * 
+ * Los estilos se aplican globalmente a través del layout principal de la aplicación.
+ */
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

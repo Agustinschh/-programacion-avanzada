@@ -1,0 +1,102 @@
+﻿Licenciatura en Sistemas de Información 
+Programación Avanzada - 2025 
+01 - Descripción General 
+Desarrollar una aplicación web de monitoreo en tiempo real para simular y supervisar 5 nodos de una red de datos. El sistema debe utilizar Kafka (o un simulador de eventos) como manejador de eventos para procesar y visualizar métricas de red, incluyendo conexiones, latencia, caídas de servicio y alarmas. 
+Objetivos de Aprendizaje 
+- Implementar un sistema de eventos en tiempo real 
+- Visualizar datos de red de forma efectiva 
+- Manejar estados asíncronos en aplicaciones React 
+- Aplicar patrones de diseño para sistemas de monitoreo - Simular comportamiento de infraestructura de red 
+--- 
+02 - Requerimientos Funcionales 
+Simulación de Nodos de Red 
+Descripción: Implementar la simulación de 5 nodos de red con comportamiento dinámico.
+Tareas: 
+- Crear una estructura de datos para representar cada nodo con las siguientes propiedades: 
+- ID único del nodo 
+- Nombre descriptivo 
+- Estado actual (online, offline, degraded) 
+- Métricas de conexión activas 
+- Latencia actual en milisegundos 
+- Timestamp de última actualización 
+- Implementar lógica de cambio de estado aleatorio que simule: 
+- Transiciones entre estados (online → degraded → offline) - Variación de latencia (50ms - 500ms) 
+- Fluctuación en número de conexiones 
+03 - Criterios de Evaluación 
+- Los nodos deben cambiar de estado de forma realista - Las métricas deben actualizarse continuamente 
+- Debe haber al menos 3 estados diferentes por nodo 
+04 - Sistema de Eventos Kafka 
+Descripción: Implementar un productor y consumidor de eventos que simule el comportamiento de Kafka. 
+Tareas: 
+- Crear un simulador de Kafka que genere eventos de los siguientes tipos: 
+- `NODE_STATUS_CHANGE`: Cambio de estado de un nodo - `LATENCY_UPDATE`: Actualización de latencia 
+- `CONNECTION_CHANGE`: Cambio en número de conexiones
+- ALARM: Generación de alarmas 
+- Implementar un sistema de suscripción a eventos con callbacks - Cada evento debe contener: 
+- Tipo de evento 
+- Timestamp 
+- ID del nodo afectado 
+- Datos específicos del evento 
+- Metadata adicional 
+Criterios de Evaluación: 
+- Los eventos deben generarse en intervalos regulares (1-3 segundos) - El sistema debe soportar múltiples suscriptores 
+- Los eventos deben ser procesados en orden cronológico 
+05 - Dashboard de Visualización 
+Descripción: Crear una interfaz de usuario que muestre el estado de todos los nodos en tiempo real. 
+Tareas: 
+- Diseñar y desarrollar tarjetas de estado para cada nodo que muestren: 
+- Estado visual con código de colores (verde/amarillo/rojo) - Latencia actual 
+- Número de conexiones activas 
+- Indicador de tendencia (mejorando/empeorando) 
+- Implementar un panel de estadísticas generales que muestre: 
+- Total de nodos activos 
+- Promedio de latencia de la red 
+- Total de conexiones 
+- Número de alarmas activas
+05 - Gráficos de Latencia 
+Descripción: Implementar visualización gráfica de la latencia histórica de cada nodo. 
+Tareas: 
+- Integrar una librería de gráficos (Recharts recomendado) Crear gráficos de línea que muestren: 
+- Latencia en el eje Y (milisegundos) 
+- Tiempo en el eje X (últimos 20 puntos de datos) 
+- Línea diferente por cada nodo con código de colores 
+- Mantener un historial de datos de latencia 
+- Actualizar el gráfico automáticamente con nuevos datos 06 - Sistema de Alarmas 
+Descripción: Implementar un sistema de notificaciones y registro de alarmas. 
+Tareas: 
+- Crear lógica para generar alarmas basadas en: 
+- Latencia alta (> 300ms) → Advertencia 
+- Nodo caído → Crítico 
+- Conexiones bajas (< 50) → Info 
+- Implementar un log de eventos que muestre: 
+- Timestamp de cada evento 
+- Tipo de evento con icono distintivo 
+- Nodo afectado 
+- Descripción del evento 
+- Nivel de severidad con código de colores 
+- Mantener un historial de los últimos 50 eventos
+07 - Requerimientos Técnicos 
+Stack Tecnológico Requerido 
+- Framework: Next.js 15 con App Router 
+- Lenguaje: TypeScript 
+- Estilos: Tailwind CSS v4 
+- Gráficos: Recharts 
+- Componentes UI:** shadcn/ui 
+Estructura de Archivos Esperada 
+/app 
+- page.tsx (Dashboard principal) 
+- layout.tsx 
+- globals.css 
+/components 
+- node-card.tsx 
+- latency-chart.tsx 
+- event-log.tsx 
+- stats-overview.tsx 
+/lib 
+- kafka-simulator.ts (Lógica de eventos) 
+- types.ts (Definiciones de tipos) 
+Recursos de Apoyo 
+- Documentación de Next.js: [https://nextjs.org/docs](https://nextjs.org/docs) - Documentación de Recharts: [https://recharts.org](https://recharts.org) - Guía de Tailwind CSS: 
+[https://tailwindcss.com/docs](https://tailwindcss.com/docs) - Conceptos de Apache Kafka: 
+[https://kafka.apache.org/intro](https://kafka.apache.org/intro)
+08 - UIs Demos
